@@ -44,11 +44,23 @@ String get binaryName {
 // ignore: missing_return
 DynamicLibrary tflitelib = () {
   if (Platform.isAndroid) {
-    return DynamicLibrary.open('libtensorflowlite_c.so');
+    return DynamicLibrary.open('libtensorflowlite_jni.so');
   } else if (Platform.isIOS) {
     return DynamicLibrary.process();
   } else {
     return DynamicLibrary.open(
         '${Directory(Platform.resolvedExecutable).parent.path}/blobs/$binaryName');
+  }
+}();
+
+DynamicLibrary tflitelibgpu = () {
+  if (Platform.isAndroid) {
+    return DynamicLibrary.open('libtensorflowlite_gpu_jni.so');
+  } else if (Platform.isIOS) {
+    return DynamicLibrary.process();
+  } else {
+    return DynamicLibrary.open(
+        Directory(Platform.resolvedExecutable).parent.path +
+            '/blobs/${binaryName}');
   }
 }();
